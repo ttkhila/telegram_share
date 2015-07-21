@@ -19,7 +19,7 @@ function realizaLogin(){
             $result = array(0, "Preencha os campos!");
             echo json_encode($result);
             exit;
-        }
+        } 
         $dados[$valor[0]] = $valor[1];
     }
     
@@ -129,21 +129,21 @@ function novoGrupo(){
 			require_once 'funcoes.php';
 			$data = date('Y-m-d');
 			$moeda = between("(", ")", $moeda);
-			$fator = 3.14; //provisório
+			//$fator = 3.14; //provisório
 			//echo json_encode($data);exit;
 			// Não está funcionando para ambiente externo dentro do banco
-			/*
+			
 			$url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22".$moeda."BRL%22)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
 			$xml = simplexml_load_file($url);
-			$fator = $xml->results->rate->Rate;
-			*/
+			$fator = floatval($xml->results->rate->Rate);
+			
 			if ($moeda != "BRL")
 				$valor_convertido = $soma * $fator;
 			else
 				$valor_convertido = $soma;
 			
 			
-			$c->gravaDadosAdicionais($idGrupo, $soma, $valor_convertido, $fator, $data);
+			$c->gravaDadosAdicionais($idGrupo, $soma, number_format($valor_convertido, 2), number_format($fator, 2), $data);
 
 			 //echo json_encode($xml);exit;
 		}
@@ -169,15 +169,17 @@ function mostraGrupo(){
 	$c->carregaDados($idGrupo);
 	$saida = "";
 	$simboloMoeda = $c->recupera_dados_moedas($c->getMoedaId())->simbolo;
+	//echo json_encode("Valor: ".$simboloMoeda);exit;
 	$nomeMoeda = stripslashes(utf8_decode($c->recupera_dados_moedas($c->getMoedaId())->nome));
 	if($c->getFechado() == 1) $fechado = "Sim"; else $fechado = "Não";
-	
+
 	if($c->getOrig1() == 0){ $orig1 = "Vaga em aberto"; $valor1 = "N/D"; }
 	else { 
 		$u->carregaDados($c->getOrig1()); 
 		$c->carregaDadosHistoricos($idGrupo, 1);
 		$orig1 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")"; 
-		$valor1 = !empty($c->getValorPago()) ? $simboloMoeda." ".str_replace(".", ",", number_format($c->getValorPago(), 2)): "N/D";
+		$valor1 = !empty($c->getValorPago()) ? $simboloMoeda." ".str_replace(".", ",", number_format($c->getValorPago(), 2)) : "N/D";
+		
 	}
 	
 	if($c->getOrig2() == 0){ $orig2 = "Vaga em aberto";  $valor2 = "N/D";} 
@@ -199,20 +201,36 @@ function mostraGrupo(){
 	//recupera os jogos da conta
 	$jogos = $j->getJogosGrupo($idGrupo);
 	$saida .= "<div class='casulo-conteudo-direita'>";
+		
 	$saida .= "<span class='sp-sub-titulo-grupos'>Jogos:</span><br />";
+	
 	while($d = $jogos->fetch_object()){
 		$saida .= "<span>- ".stripslashes(utf8_decode($d->jogo))." (".$d->nome_abrev.")</span><br />";
+		
 	}
 	$saida .= "</div>";
 	
 	$saida .= "<div class='casulo-conteudo-esquerda'>";
 	$saida .= "<span class='sp-sub-titulo-grupos'>Vagas/Valores ($nomeMoeda):</span><br />";
-	$saida .= "<span><strong>Original 1:</strong> </span><span class='sp-login'>$orig1</span><span><strong>Valor pago: </strong></span><span>$valor1</span><br />";
-	$saida .= "<span><strong>Original 2:</strong> </span><span class='sp-login'>$orig2</span><span><strong>Valor pago: </strong></span><span>$valor2</span><br />";
-	$saida .= "<span><strong>Fantasma:</strong> </span><span class='sp-login'>$orig3</span><span><strong>Valor pago: </strong></span><span>$valor3</span><br />";
-	$saida .= "</div>";
-	//continuar saída
 	
+	$saida .= "<span class='sp-spaces'>Original 1:</span><span class='sp-login'>$orig1</span><span><strong>Valor pago: </strong></span><span>$valor1</span><br />";
+	
+	$saida .= "<span class='sp-spaces'>Original 2:</span><span class='sp-login'>$orig2</span><span><strong>Valor pago: </strong></span><span>$valor2</span><br />";
+	$saida .= "<span class='sp-spaces'>Fantasma:</span><span class='sp-login'>$orig3</span><span><strong>Valor pago: </strong></span><span>$valor3</span><br />";
+	
+	if($c->getFechado() == 1){
+		$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-valores-totais-grupos'>Valor Total: </span>
+			<span class='sp-valores-totais-grupos'>".$simboloMoeda." ".str_replace(".", ",", number_format($c->getValor(), 2))."</span>";
+		if($c->getMoedaId() != 1){ //moeda estrangeira - mostrar conversão
+			$saida .= "<br /><span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-valores-totais-grupos'>Convertido(R$): </span>
+				<span class='sp-valores-totais-grupos'>R$ ".str_replace(".", ",", number_format($c->getValorConvertido(), 2))."</span><br />";
+			$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-fator-conversao-grupos'>Fator Conversão: </span>
+				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", $c->getFatorConversao())."</span><br />";
+
+		}
+		
+	}
+	$saida .= "</div>";
 	echo json_encode($saida);
 	exit;
 }

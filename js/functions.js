@@ -127,7 +127,7 @@ function original3Callback( par ){
 
 //jogos
 $("#div-novo-grupo").on("keydown","[name='jogo[]']",function(e) {
-    if ( !$(this).data("simpleAutoComplete") ) { 
+    if (!$(this).data("simpleAutoComplete")) { 
 		JOGO_AUTOCOMPLETE = $(this).attr('id').split("_")[0];
 		var tecla = e.which;
 		if(tecla != 9 && tecla != 13){
@@ -269,7 +269,8 @@ $("#btn-grupo-novo").click(function(e){
 					var qtd = item.length;
 					for(var z=0;z<qtd;z++)
 						$error += item[z]+"<br />";
-				})
+				});
+				$(document).scrollTop( $("#foco").offset().top );
 				$(".sp-erro-msg")
 					.fadeIn()
 					.html($error+"<span>x</span>");
@@ -301,7 +302,7 @@ $("#div-listagem-grupos").find("[name='div-casulo-grupo'] img").click(function()
 		beforeSend: function() { $("img.pull-right").fadeIn('fast'); },
 		complete: function(){ $("img.pull-right").fadeOut('fast'); },
 		success: function(data){ 
-			console.log(data); 
+			console.log(data);
 			$("#grupo-conteudo_"+$id)
 				.html(data)
 				.slideDown();

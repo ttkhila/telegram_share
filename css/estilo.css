@@ -160,6 +160,9 @@ hr {clear:both; }
 .casulo-grupo-conteudo{margin-left:30px;margin-top:10px;} /* receptaculo do conteúdo dos títulos */
 .casulo-grupo-conteudo span{display:inline-table; margin-right:5px;}
 .sp-login{width:210px;}
-.casulo-conteudo-direita{width:40%;float:right;}
-.casulo-conteudo-esquerda{ width:60%; }
-.sp-sub-titulo-grupos{font-weight:bold; color:#f00; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";  }
+.sp-spaces{width:75px; font-weight:bold;}
+.casulo-conteudo-direita{width:38%;float:right;}
+.casulo-conteudo-esquerda{ width:62%; }
+.sp-sub-titulo-grupos{font-weight:bold; color:#f00; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}
+.sp-valores-totais-grupos{font-weight:bold; color:#4682B4; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}
+.sp-fator-conversao-grupos{font-weight:bold; color:#6B8E23; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}

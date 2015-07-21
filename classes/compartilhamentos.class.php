@@ -101,7 +101,7 @@ class compartilhamentos{
 		return $res;
 	}
 //---------------------------------------------------------------------------------------------------------------
-	public function recupera_moedas(){
+	public function recupera_moedas(){ 
 		$query = "SELECT * FROM moedas ORDER BY nome";
 		try { $res = $this->con->multiConsulta($query); } catch(Exception $e) { return $e.message; }
 		

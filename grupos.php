@@ -11,7 +11,7 @@
 	$selfID = $_SESSION['ID'];
 	$moedas = $c->recupera_moedas();
 	$jogos = $j->getJogos();
-	
+
 	//recupera dados dos compartilhamentos existentes
 	$dados1 = $c->getDadosPorUsuario($selfID);
 ?>
@@ -43,7 +43,7 @@
 <body>
 	<?php $menu = file_get_contents('menu.php'); echo login($menu); //insere menu ?>
 	<!-- Conteúdo Principal: Início -->
-	
+	<a href="#" id="foco"></a>
 	<h2>Grupos</h2>
 	<div id="div-cadastro-jogos">
 		<input type="hidden" id="selfID" name="selfID" value="<?php echo $selfID; ?>" /> 
