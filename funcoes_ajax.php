@@ -219,10 +219,10 @@ function mostraGrupo(){
 	$saida .= "<span class='sp-spaces'>Fantasma:</span><span class='sp-login'>$orig3</span><span><strong>Valor pago: </strong></span><span>$valor3</span><br />";
 	
 	if($c->getFechado() == 1){
-		$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-valores-totais-grupos'>Valor Total: </span>
+		$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'><a href='#' name='historico-grupo' id='historico_".$c->getId()."'>Ver Histórico</a></span><span class='sp-valores-totais-grupos'>Valor Total: </span>
 			<span class='sp-valores-totais-grupos'>".$simboloMoeda." ".str_replace(".", ",", number_format($c->getValor(), 2))."</span>";
 		if($c->getMoedaId() != 1){ //moeda estrangeira - mostrar conversão
-			$saida .= "<br /><span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-valores-totais-grupos'>Convertido(R$): </span>
+			$saida .= "<br /><span class='sp-spaces'>&nbsp;</span><span class='sp-login'></span><span class='sp-valores-totais-grupos'>Convertido(R$): </span>
 				<span class='sp-valores-totais-grupos'>R$ ".str_replace(".", ",", number_format($c->getValorConvertido(), 2))."</span><br />";
 			$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-fator-conversao-grupos'>Fator Conversão: </span>
 				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", $c->getFatorConversao())."</span><br />";
@@ -235,7 +235,48 @@ function mostraGrupo(){
 	exit;
 }
 //----------------------------------------------------------------------------------------------------------------------------
-
+function mostraHistorico(){
+	$idGrupo = $_POST['id'];
+	$c = carregaClasse("Compartilhamento");
+	$dadosIniciais = $c->getDadosHistoricoInicial($idGrupo);
+	$dadosHist = $c->getDadosHistorico($idGrupo);
+	$saida = "";
+	$saida .= "<table><thead>";
+	$saida .= "<tr><th>Linha do Tempo</th><th>Original 1</th><th>Original 2</th><th>Fantasma</th></tr></thead>";
+	$saida .= "<tbody><tr>";
+	$cont = 0;
+	while($d = $dadosIniciais->fetch_object()){ //dados da criação da conta
+		if($cont == 0){
+			$phpdate = strtotime($d->data_venda);
+			$data_venda = date( 'd-m-Y', $phpdate );
+			$saida .= "<td>$data_venda (criação da conta)</td>";
+		}
+		if($d->comprador_id == 0) $saida .= "<td>Vaga em aberto</td>"; //vaga não foi vendida no fechamento do grupo
+		else $saida .= "<td title='".stripslashes(utf8_decode($d->nome))."'>".stripslashes(utf8_decode($d->login))."</td>";
+		$cont ++;
+	}
+	$saida .= "</tr>";
+	
+	if($dadosHist->num_rows > 0){ //a conta já foi repassada ao menos uma vez depois da criação
+		while($d = $dadosHist->fetch_object()){ //dados do histórico da conta já repassada
+			$phpdate = strtotime($d->data_venda);
+			$data_venda = date( 'd-m-Y', $phpdate );
+			$saida .= "<tr><td>$data_venda</td>";
+			if($d->vaga == '1') { //Original 1
+				$saida .= "<td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			} else if($d->vaga == '2') { //Original 1
+				$saida .= "<td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td><td>&nbsp;</td></tr>";
+			} else if($d->vaga == '3') { //Original 1
+				$saida .= "<td>&nbsp;</td><td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td></tr>";
+			}	
+		}
+	}
+	$saida .= "</tbody>";
+	$saida .= "</table>";
+	
+	echo json_encode($saida);
+	exit;
+}
 //----------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------

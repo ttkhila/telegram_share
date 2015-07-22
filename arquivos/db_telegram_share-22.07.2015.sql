@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.4
+-- version 3.4.10.1deb1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 21-Jul-2015 às 23:22
--- Versão do servidor: 5.6.15-log
--- PHP Version: 5.5.8
+-- Servidor: localhost
+-- Tempo de Geração: 22/07/2015 às 13h12min
+-- Versão do Servidor: 5.5.41
+-- Versão do PHP: 5.5.22-1+deb.sury.org~precise+1
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `db_telegram_share`
+-- Banco de Dados: `db_telegram_share`
 --
 
 -- --------------------------------------------------------
@@ -61,7 +61,7 @@ INSERT INTO `compartilhamentos` (`id`, `nome`, `email`, `original1_id`, `origina
 (11, 'Jogos em euros', 'e_rocha78@yahoo.com.br', 5, 3, 7, 117.45, 407.01, 3.47, 4, '2015-07-21', 1, 1, 3),
 (12, 'libra', 'e_rocha78@yahoo.com.br', 3, 0, 0, 44, 216.86, 4.93, 5, '2015-07-21', 1, 1, 3),
 (13, 'testeÃ¢Â‚Â¬libraÃ‚Â£', '', 3, 0, 0, NULL, NULL, NULL, 2, NULL, 1, 0, 3),
-(14, 'Teste definitivo de Libras', 'e_rocha78@yahoo.com.br', 5, 3, 1, 56.48, 278.68, 4.93, 5, '2015-07-21', 1, 1, 1),
+(14, 'Teste definitivo de Libras', 'e_rocha78@yahoo.com.br', 2, 4, 1, 56.48, 278.68, 4.93, 5, '2015-07-21', 1, 1, 1),
 (15, 'dwqdqwdqwdwq', 'e_rocha78@yahoo.com.br', 1, 2, 5, 7, 7, 1, 1, '2015-07-21', 1, 1, 1);
 
 -- --------------------------------------------------------
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `historicos` (
   `data_venda` date DEFAULT NULL,
   `senha_alterada` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Na criação da conta, o histórico é criado para as 3 vagas' AUTO_INCREMENT=43 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Na criação da conta, o histórico é criado para as 3 vagas' AUTO_INCREMENT=49 ;
 
 --
 -- Extraindo dados da tabela `historicos`
@@ -123,12 +123,18 @@ INSERT INTO `historicos` (`id`, `compartilhamento_id`, `vendedor_id`, `comprador
 (34, 13, 0, 3, '1', NULL, NULL, 0),
 (35, 13, 0, 0, '2', NULL, NULL, 0),
 (36, 13, 0, 0, '3', NULL, NULL, 0),
-(37, 14, 0, 5, '1', 27.25, '2015-07-21', 0),
-(38, 14, 0, 3, '2', 21.03, '2015-07-21', 0),
-(39, 14, 0, 1, '3', 8.2, '2015-07-21', 0),
+(37, 14, 0, 5, '1', 27.25, '2015-05-21', 0),
+(38, 14, 0, 3, '2', 21.03, '2015-05-21', 0),
+(39, 14, 0, 1, '3', 8.2, '2015-05-21', 0),
 (40, 15, 0, 1, '1', 1, '2015-07-21', 0),
 (41, 15, 0, 2, '2', 3, '2015-07-21', 0),
-(42, 15, 0, 5, '3', 3, '2015-07-21', 0);
+(42, 15, 0, 5, '3', 3, '2015-07-21', 0),
+(43, 14, 3, 6, '2', 20, '2015-05-23', 0),
+(44, 14, 5, 10, '1', 24.56, '2015-05-30', 0),
+(45, 14, 6, 8, '2', 18.5, '2015-06-10', 1),
+(46, 14, 8, 11, '2', 16, '2015-06-22', 1),
+(47, 14, 10, 2, '1', 22, '2015-06-23', 0),
+(48, 14, 11, 4, '2', 15.4, '2015-07-12', 0);
 
 -- --------------------------------------------------------
 
@@ -292,13 +298,14 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `ativo` tinyint(1) NOT NULL DEFAULT '1',
   `pontos` int(11) NOT NULL DEFAULT '0' COMMENT 'Pontuação de recomendações',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=13 ;
 
 --
 -- Extraindo dados da tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `login`, `email`, `telefone`, `senha`, `primeiro_acesso`, `ativo`, `pontos`) VALUES
+(0, 'bot', 'bot', '', '', '', 0, 0, 0),
 (1, 'EstevÃƒÂ£o Rocha Bom', 'ttkhila', 'e_rocha78@yahoo.com.br', '6183350896', '30fb914bd667fb368bb09c312bb62b8e', 0, 1, 0),
 (2, 'Rodolfo Cintra', 'rozinho_1', 'rozinho@psn.com', '11999582510', '89794b621a313bb59eed0d9f0f4e8205', 0, 1, 0),
 (3, 'Alisson Oliveira', 'TeGamerTwo', 'rozinho@psn.com', '3298453652', '89794b621a313bb59eed0d9f0f4e8205', 0, 1, 0),

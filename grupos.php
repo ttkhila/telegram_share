@@ -33,10 +33,9 @@
 		$("[name='lista_jogos']").mousemove(function(e){
 			e.preventDefault(); //previne o evento 'normal'
 			$(".div-suspenso-jogos").slideDown('slow');
-		});
-		$("[name='lista_jogos']").click(function(e){ e.preventDefault(); });
+		}).click(function(e){ e.preventDefault(); });
 		
-		$("[name='fecha_lista_jogos']").click(function(e){ $(this).parent().parent().slideUp('slow'); });
+		$("[name='fecha_lista_jogos']").click(function(e){ $(this).parent().parent().fadeOut(); });
 	});	
 </script>
 </head>
@@ -147,6 +146,8 @@
 			}
 		?>
 		</div>
+		<input type="hidden" id="hidFlag" value="0" />
+		<div id="div-historico-grupo" style="display:none;"></div><!-- DIV que vai receber dados do histórico dos grupos selecionados -->
 		<!-- Meus Grupos: Fim-->
 		
 	</div>
