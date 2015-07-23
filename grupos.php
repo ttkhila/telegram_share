@@ -21,11 +21,11 @@
 		$('#imgNovo').click(function(e){ 
 			if($(this).attr('name') == 'abre'){
 				$('#div-novo-grupo').slideDown(); 
-				$(this).prop({'src':"/telegram_share/img/close.png",'width':'18','height':'18'});
+				$(this).prop({'src':"img/close.png",'width':'18','height':'18'});
 				$(this).prop('name', 'fecha');
 			} else {
 				$('#div-novo-grupo').slideUp(); 
-				$(this).prop({'src':"/telegram_share/img/add.png",'width':'20','height':'20'});
+				$(this).prop({'src':"img/add.png",'width':'20','height':'20'});
 				$(this).prop('name', 'abre');
 			}
 		});
@@ -46,18 +46,18 @@
 	<h2>Grupos</h2>
 	<div id="div-cadastro-jogos">
 		<input type="hidden" id="selfID" name="selfID" value="<?php echo $selfID; ?>" /> 
-		<img src="/telegram_share/img/add.png" width="20" height="20" id="imgNovo" name="abre" style="cursor:pointer;" />&nbsp;&nbsp;<strong>Novo Grupo</strong>
+		<img src="img/add.png" width="20" height="20" id="imgNovo" name="abre" style="cursor:pointer;" />&nbsp;&nbsp;<strong>Novo Grupo</strong>
 		<!-- Novo Grupo - Início -->
 		<div id="div-novo-grupo" style="display:none;" class="div-grupos">
 			<div class="sp-erro-msg" style="display:none;"></div><!-- mensagem de erro -->
 			<span class="sp-form">Nome:</span>
 			<input type="text" name="nome" id="nome" maxlength="50" required="" style="width:450px;" />&nbsp;&nbsp;
-			<a href="#" title="Digite um nome para o grupo que identifique o(s) jogo(s) contido(s) nele ou seus integrantes." class="masterTooltip"><img src="/telegram_share/img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
+			<a href="#" title="Digite um nome para o grupo que identifique o(s) jogo(s) contido(s) nele ou seus integrantes." class="masterTooltip"><img src="img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
 			
 			<span class="sp-form">E-mail:</span>
 			<input type="email" name="email" id="email" style="width:450px;" />&nbsp;&nbsp;
 			<a href="#" title="E-mail da conta de jogo. N&atilde;o &eacute; obrigat&oacute;rio informar na criação do grupo, a n&atilde;o ser que seja um grupo j&aacute; fechado." class="masterTooltip">
-				<img src="/telegram_share/img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
+				<img src="img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
 			
 			<span class="sp-form">Moeda de compra:</span>
 			<select id="moedas" name="moedas">
@@ -72,7 +72,7 @@
 			<!-- JOGOS-->
 			<span class="sp-form-titulo" style="min-width:55px">Jogo(s)</span>
 			<a href="#" title="&Eacute; necess&aacute;rio o preenchimento de pelo menos um jogo." class="masterTooltip">
-				<img src="/telegram_share/img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
+				<img src="img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
 			<span class="sp-form">Jogo 1:</span>
 			<input type="hidden" name="jogo_id[]" id="jogo1_id" required="" />
 			<input type="text" name="jogo[]" id="jogo1_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do nome do jogo" required="" />
@@ -93,7 +93,7 @@
 			<!-- VAGAS-->
 			<span class="sp-form-titulo" style="min-width:70px">Usu&aacute;rios</span>
 			<a href="#" title="Na cria&ccedil;&atilde;o do grupo &eacute; obrigat&oacute;rio o preenchimento de apenas seu pr&oacute;prio ID numa das vagas." class="masterTooltip">
-				<img src="/telegram_share/img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
+				<img src="img/help.png" width="16" height="16" /></a><br /><!--TOOLTIP -->
 			<span class="sp-form">Original 1 / ID:</span>
 			<input type="hidden" name="original1_id" id="original1_id" />
 			<input type="text" name="original1" id="original1_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do usu&aacute;rio" />
@@ -116,7 +116,7 @@
 			<button class="btn-limpar" id="3">Limpar</button><br /><br />
 			
 			<input type="checkbox" id="fechado" name="fechado" /><span class="sp-form">&nbsp;&nbsp;Grupo j&aacute; fechado?</span>&nbsp;&nbsp;
-			<a href="#" title="Se esse campo for marcado, ser&aacute; obrigat&oacute;rio o preenchimento de pelo menos uma vaga, os valores das vagas preenchidas, assim como o e-mail da conta criada." class="masterTooltip"><img src="/telegram_share/img/help.png" width="16" height="16" /></a><br /><br /><!--TOOLTIP -->
+			<a href="#" title="Se esse campo for marcado, ser&aacute; obrigat&oacute;rio o preenchimento de pelo menos uma vaga, os valores das vagas preenchidas, assim como o e-mail da conta criada." class="masterTooltip"><img src="img/help.png" width="16" height="16" /></a><br /><br /><!--TOOLTIP -->
 			<button id="btn-grupo-novo" class="btn-padrao">Criar Grupo</button>
 		</div><!-- Novo Grupo - Fim -->
 		<br /><br />
@@ -129,14 +129,14 @@
 		<?php
 			if ($dados1->num_rows == 0){
 				echo "<span>Não há nenhum grupo ativo para este usuário!<br />
-				Clique no ícone <img src='/telegram_share/img/add.png' width='20' height='20'  /> acima para criar um novo grupo.
+				Clique no ícone <img src='img/add.png' width='20' height='20'  /> acima para criar um novo grupo.
 				</span>";
 			} else {
 				while($d = $dados1->fetch_object()){
 					if($d->fechado == 1) $fechado = "Grupo Fechado"; else $fechado = "Grupo aberto";
 					echo "<div id ='grupo_".$d->id."' class='casulo-grupo'>";
 					echo "<div name='div-casulo-grupo' id ='grupo-titulo_".$d->id."' class='casulo-grupo-titulo'>";
-					echo "<span><img src='/telegram_share/img/plus.png' width='16' height='16' id='_1' /></span><span>".stripslashes(utf8_decode($d->nome))."</span>";
+					echo "<span><img src='img/plus.png' width='16' height='16' id='_1' /></span><span>".stripslashes(utf8_decode($d->nome))."</span>";
 					echo "<span>&nbsp;&nbsp;($fechado)</span>";
 					echo "</div>";
 					echo "<div id ='grupo-conteudo_".$d->id."' class='casulo-grupo-conteudo' style='display:none;'></div>";

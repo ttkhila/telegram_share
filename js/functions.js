@@ -344,6 +344,7 @@ $(".casulo-grupo-conteudo").on("click", "[name='historico-grupo']", function(e){
 				.show()
 				.css("top", ($elemTop-100))
 				.html(data);
+		
 			$("#hidFlag").val("1");
 			$elem.text("Fechar");
 		}
