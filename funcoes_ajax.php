@@ -123,6 +123,7 @@ function novoGrupo(){
 		array_push($valores, $selfID);
 		$idGrupo = $c->insereGrupo($campos, $valores);
 		$soma = $c->gravaVagas($idGrupo, $orig[1], $orig[2], $orig[3], $outrosDados); //retorna a soma dos valores lançados
+		
 		$retorno2 = $j->gravaJogosCompartilhados($idGrupo, $outrosDados);
 		
 		if($fechado == 1){
@@ -130,20 +131,20 @@ function novoGrupo(){
 			$data = date('Y-m-d');
 			$moeda = between("(", ")", $moeda);
 			//$fator = 3.14; //provisório
-			//echo json_encode($data);exit;
 			// Não está funcionando para ambiente externo dentro do banco
 			
 			$url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22".$moeda."BRL%22)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
 			$xml = simplexml_load_file($url);
-			$fator = floatval($xml->results->rate->Rate);
+			$fator = number_format(floatval($xml->results->rate->Rate), 2);
 			
-			if ($moeda != "BRL")
-				$valor_convertido = $soma * $fator;
-			else
-				$valor_convertido = $soma;
-			
-			
-			$c->gravaDadosAdicionais($idGrupo, $soma, number_format($valor_convertido, 2), number_format($fator, 2), $data);
+			if ($moeda != "BRL") $valor_convertido = $soma * $fator;
+			else $valor_convertido = $soma;
+			//echo json_encode(str_replace(",", "", number_format($valor_convertido, 2)));exit;
+			//echo json_encode($soma);exit;
+			$valor_convertido = str_replace(",", "", number_format($valor_convertido, 2));
+	
+			$c->gravaDadosAdicionais($idGrupo, $soma, $valor_convertido, $fator, $data);
+			//$c->gravaDadosAdicionais($idGrupo, $soma, number_format($valor_convertido, 2), number_format($fator, 2), $data);
 
 			 //echo json_encode($xml);exit;
 		}
@@ -179,7 +180,7 @@ function mostraGrupo(){
 		$c->carregaDadosHistoricos($idGrupo, 1);
 		$orig1 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")"; 
 		$valorPago = $c->getValorPago();
-		$valor1 = (!empty($valorPago)) ? $simboloMoeda." ".str_replace(".", ",", number_format($valorPago, 2)) : "N/D";
+		$valor1 = (!empty($valorPago)) ? $simboloMoeda." ".number_format($valorPago, 2, ',', '.') : "N/D";
 		
 	}
 	
@@ -189,7 +190,7 @@ function mostraGrupo(){
 		$c->carregaDadosHistoricos($idGrupo, "2");
 		$orig2 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")";
 		$valorPago = $c->getValorPago();
-		$valor2 = (!empty($valorPago)) ? $simboloMoeda." ".str_replace(".", ",", number_format($valorPago, 2)): "N/D";
+		$valor2 = (!empty($valorPago)) ? $simboloMoeda." ".number_format($valorPago, 2, ',', '.'): "N/D";
 	}
 	
 	if($c->getOrig3() == 0){ $orig3 = "Vaga em aberto"; $valor3 = "N/D"; }
@@ -198,7 +199,7 @@ function mostraGrupo(){
 		$c->carregaDadosHistoricos($idGrupo, "3");
 		$orig3 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")"; 
 		$valorPago = $c->getValorPago(); 
-		$valor3 = (!empty($valorPago)) ? $simboloMoeda." ".str_replace(".", ",", number_format($valorPago, 2)): "N/D";
+		$valor3 = (!empty($valorPago)) ? $simboloMoeda." ".number_format($valorPago, 2, ',', '.'): "N/D";
 	}
 
 	//recupera os jogos da conta
@@ -223,12 +224,12 @@ function mostraGrupo(){
 	
 	if($c->getFechado() == 1){
 		$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'><a href='#' name='historico-grupo' id='historico_".$c->getId()."'>Ver Histórico</a></span><span class='sp-valores-totais-grupos'>Valor Total: </span>
-			<span class='sp-valores-totais-grupos'>".$simboloMoeda." ".str_replace(".", ",", number_format($c->getValor(), 2))."</span>";
+			<span class='sp-valores-totais-grupos'>".$simboloMoeda." ".number_format($c->getValor(), 2, ',', '.')."</span>";
 		if($c->getMoedaId() != 1){ //moeda estrangeira - mostrar conversão
 			$saida .= "<br /><span class='sp-spaces'>&nbsp;</span><span class='sp-login'></span><span class='sp-valores-totais-grupos'>Convertido(R$): </span>
-				<span class='sp-valores-totais-grupos'>R$ ".str_replace(".", ",", number_format($c->getValorConvertido(), 2))."</span><br />";
+				<span class='sp-valores-totais-grupos'>R$ ".number_format($c->getValorConvertido(), 2, ',', '.')."</span><br />";
 			$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-fator-conversao-grupos'>Fator Conversão: </span>
-				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", $c->getFatorConversao())."</span><br />";
+				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", number_format($c->getFatorConversao(), 2))."</span><br />";
 
 		}
 		
