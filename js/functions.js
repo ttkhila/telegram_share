@@ -15,6 +15,41 @@ $(function(){
         }
         return string;
     }
+    
+	function abreModal(id, data, top){
+		//id->ID do elemento que recebe o conteúdo (com#)
+		//data->Conteúdo do elemento id
+		//top->Altura do elemento chamador (que será parametro para a altura de id)
+		var maskHeight = $(document).height();
+		var maskWidth = $(window).width();
+	
+		$('#mask').css({'width':maskWidth,'height':maskHeight});
+		$('#mask').fadeIn(1000);	
+		$('#mask').fadeTo("slow",0.8);	
+
+		var winH = $(window).height();
+		var winW = $(window).width();
+              
+		$(id).css({ 'top': top-$(id).height()/2, 'left': winW/2-$(id).width()/2 });
+	
+		$(id).fadeIn(2000); 
+		$(id).html(data);
+	}
+	
+	function closeModal(){
+		return '<a href="#" class="close">Fechar [X]</a><br />';
+	}
+	
+	$('.window').on('click', '.close', function (e) {
+		e.preventDefault();
+		$('#mask').hide();
+		$('.window').hide();
+	});		
+	
+	$('#mask').click(function () {
+		$(this).hide();
+		$('.window').hide();
+	});			
 //********************************************************************************
 //LOGIN
 $("#frmLogin").submit(function(e){
@@ -316,7 +351,8 @@ $("#div-listagem-grupos").find("[name='div-casulo-grupo'] img").click(function()
 //********************************************************************************
 $(".casulo-grupo-conteudo").on("click", "[name='historico-grupo']", function(e){
 	e.preventDefault();
-	$flag = $("#hidFlag").val();
+	/*
+	//$flag = $("#hidFlag").val();
 	if($flag == '1'){
 		$("#div-historico-grupo")
 			.html("")
@@ -325,6 +361,7 @@ $(".casulo-grupo-conteudo").on("click", "[name='historico-grupo']", function(e){
 		$elem.text("Ver Histórico");
 		return;
 	}
+	*/
 	$elem = $(this);
 	$elemTop = parseInt($elem.offset().top);
 	//alert($elemTop);return;
@@ -340,13 +377,10 @@ $(".casulo-grupo-conteudo").on("click", "[name='historico-grupo']", function(e){
 		complete: function(){ $("img.pull-right").fadeOut('fast'); },
 		success: function(data){ 
 			console.log(data);
-			$("#div-historico-grupo")
-				.show()
-				.css("top", ($elemTop-100))
-				.html(data);
-		
-			$("#hidFlag").val("1");
-			$elem.text("Fechar");
+			//$("#div-historico-grupo").show().css("top", ($elemTop-100)).html(data);
+			abreModal("#dialog", closeModal()+data, $elemTop);
+			//$("#hidFlag").val("1");
+			//$elem.text("Fechar");
 		}
 	});
 });

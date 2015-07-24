@@ -130,12 +130,12 @@ function novoGrupo(){
 			require_once 'funcoes.php';
 			$data = date('Y-m-d');
 			$moeda = between("(", ")", $moeda);
-			//$fator = 3.14; //provisório
+			$fator = 3.14; //provisório
 			// Não está funcionando para ambiente externo dentro do banco
 			
-			$url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22".$moeda."BRL%22)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-			$xml = simplexml_load_file($url);
-			$fator = number_format(floatval($xml->results->rate->Rate), 2);
+			//$url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22".$moeda."BRL%22)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+			//$xml = simplexml_load_file($url);
+			//$fator = number_format(floatval($xml->results->rate->Rate), 2);
 			
 			if ($moeda != "BRL") $valor_convertido = $soma * $fator;
 			else $valor_convertido = $soma;
@@ -242,10 +242,12 @@ function mostraGrupo(){
 function mostraHistorico(){
 	$idGrupo = $_POST['id'];
 	$c = carregaClasse("Compartilhamento");
+	$c->carregaDados($idGrupo);
 	$dadosIniciais = $c->getDadosHistoricoInicial($idGrupo);
 	$dadosHist = $c->getDadosHistorico($idGrupo);
 	$saida = "";
 	$saida .= "<table><thead>";
+	$saida .= "<tr><th colspan=4 style='background-color:#984713; color:#F8C3A0'>Hist&oacute;rico do Grupo: ".stripslashes(utf8_decode($c->getNome()))."</th></tr>";
 	$saida .= "<tr><th>Linha do Tempo</th><th>Original 1</th><th>Original 2</th><th>Fantasma</th></tr></thead>";
 	$saida .= "<tbody><tr>";
 	$cont = 0;
