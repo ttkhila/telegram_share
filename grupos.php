@@ -147,7 +147,11 @@
 		?>
 		</div>
 		<input type="hidden" id="hidFlag" value="0" />
-		<div id="div-historico-grupo" style="display:none;"></div><!-- DIV que vai receber dados do histórico dos grupos selecionados -->
+		
+		<div id="boxes">
+			<div id="dialog" class="window"></div><!-- DIV que vai receber dados do histórico dos grupos selecionados -->
+			<div id="mask"></div>
+		</div>
 		<!-- Meus Grupos: Fim-->
 		
 	</div>

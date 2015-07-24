@@ -1,6 +1,7 @@
 <?php
 class compartilhamentos{
 	private $id;
+	private $nome;
 	private $email;
 	private $orig1;
 	private $orig2;
@@ -30,6 +31,8 @@ class compartilhamentos{
 	
 	public function setId($valor){ $this->id = $valor; }
 	public function getId(){ return $this->id; }
+	public function setNome($valor){ $this->nome = $valor; }
+	public function getNome(){ return $this->nome; }
 	public function setEmail($valor){ $this->email = $valor; }
 	public function getEmail(){ return $this->email; }
 	public function setOrig1($valor){ $this->orig1 = $valor; }
@@ -71,6 +74,7 @@ class compartilhamentos{
 		try{ $d = $this->con->uniConsulta($query); } catch(Exception $e) { die("Erro no carregamento."); }
 		$this->setId($d->id);
 		$this->setEmail($d->email);
+		$this->setNome($d->nome);
 		$this->setOrig1($d->original1_id);
 		$this->setOrig2($d->original2_id);
 		$this->setOrig3($d->original3_id);
