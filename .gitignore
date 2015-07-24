@@ -1,3 +1,4 @@
 *.class
 *.pyc
 *.pyo
+classes/conexao.class.php
