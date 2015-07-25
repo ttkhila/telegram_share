@@ -164,40 +164,46 @@ function novoGrupo(){
 //----------------------------------------------------------------------------------------------------------------------------
 function mostraGrupo(){
 	$idGrupo = $_POST['id'];
+	$selfID = $_POST['selfid'];
 	$c = carregaClasse('Compartilhamento');
 	$j = carregaClasse('Jogo');
 	$u = carregaClasse('Usuario'); 
 	$c->carregaDados($idGrupo);
 	$saida = "";
 	$simboloMoeda = $c->recupera_dados_moedas($c->getMoedaId())->simbolo;
-	//echo json_encode("Valor: ".$simboloMoeda);exit;
 	$nomeMoeda = stripslashes(utf8_decode($c->recupera_dados_moedas($c->getMoedaId())->nome));
 	if($c->getFechado() == 1) $fechado = "Sim"; else $fechado = "Não";
 
-	if($c->getOrig1() == 0){ $orig1 = "Vaga em aberto"; $valor1 = "N/D"; }
+	if($c->getOrig1() == 0){ $orig1 = "Vaga em aberto"; $orig1Nome = "Vaga em aberto"; $orig1ID = 0; $valor1 = "N/D"; }
 	else { 
 		$u->carregaDados($c->getOrig1()); 
 		$c->carregaDadosHistoricos($idGrupo, 1);
-		$orig1 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")"; 
+		$orig1 = stripslashes(utf8_decode($u->getLogin())); 
+		$orig1Nome = stripslashes(utf8_decode($u->getNome()));
+		$orig1ID = $u->getId();
 		$valorPago = $c->getValorPago();
 		$valor1 = (!empty($valorPago)) ? $simboloMoeda." ".number_format($valorPago, 2, ',', '.') : "N/D";
 		
 	}
 	
-	if($c->getOrig2() == 0){ $orig2 = "Vaga em aberto";  $valor2 = "N/D";} 
+	if($c->getOrig2() == 0){ $orig2 = "Vaga em aberto"; $orig2Nome = "Vaga em aberto"; $orig2ID = 0;  $valor2 = "N/D";} 
 	else { 
 		$u->carregaDados($c->getOrig2()); 
 		$c->carregaDadosHistoricos($idGrupo, "2");
-		$orig2 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")";
+		$orig2 = stripslashes(utf8_decode($u->getLogin()));
+		$orig2Nome = stripslashes(utf8_decode($u->getNome()));
+		$orig2ID = $u->getId();
 		$valorPago = $c->getValorPago();
 		$valor2 = (!empty($valorPago)) ? $simboloMoeda." ".number_format($valorPago, 2, ',', '.'): "N/D";
 	}
 	
-	if($c->getOrig3() == 0){ $orig3 = "Vaga em aberto"; $valor3 = "N/D"; }
+	if($c->getOrig3() == 0){ $orig3 = "Vaga em aberto"; $orig3Nome = "Vaga em aberto"; $orig3ID = 0; $valor3 = "N/D"; }
 	else { 
 		$u->carregaDados($c->getOrig3()); 
 		$c->carregaDadosHistoricos($idGrupo, "3");
-		$orig3 = stripslashes(utf8_decode($u->getLogin()))." (".stripslashes(utf8_decode($u->getNome())).")"; 
+		$orig3 = stripslashes(utf8_decode($u->getLogin()));
+		$orig3Nome = stripslashes(utf8_decode($u->getNome())); 
+		$orig3ID = $u->getId();
 		$valorPago = $c->getValorPago(); 
 		$valor3 = (!empty($valorPago)) ? $simboloMoeda." ".number_format($valorPago, 2, ',', '.'): "N/D";
 	}
@@ -213,28 +219,46 @@ function mostraGrupo(){
 		
 	}
 	$saida .= "</div>";
-	
+
 	$saida .= "<div class='casulo-conteudo-esquerda'>";
+	
+	if($orig1ID == $selfID && $c->getFechado() == 1) $opcoes1 = "<span class='sp-opcoes-vagas'><img title='Informar vaga repassada' src='img/cash.gif' />&nbsp;&nbsp;<img title='Colocar vaga a venda' src='img/checkout.png' /></span>";
+	else $opcoes1 = "<span class='sp-opcoes-vagas'></span>";
+	
+	if($orig2ID == $selfID && $c->getFechado() == 1) $opcoes2 = "<span class='sp-opcoes-vagas'><img title='Informar vaga repassada' src='img/cash.gif' />&nbsp;&nbsp;<img title='Colocar vaga a venda' src='img/checkout.png' /></span>";
+	else $opcoes2 = "<span class='sp-opcoes-vagas'></span>";
+	
+	if($orig3ID == $selfID && $c->getFechado() == 1) $opcoes3 = "<span class='sp-opcoes-vagas'><img title='Informar vaga repassada' src='img/cash.gif' />&nbsp;&nbsp;<img title='Colocar vaga a venda' src='img/checkout.png' /></span>";
+	else $opcoes3 = "<span class='sp-opcoes-vagas'></span>";
+	
+	
 	$saida .= "<span class='sp-sub-titulo-grupos'>Vagas/Valores ($nomeMoeda):</span><br />";
 	
-	$saida .= "<span class='sp-spaces'>Original 1:</span><span class='sp-login'>$orig1</span><span><strong>Valor pago: </strong></span><span>$valor1</span><br />";
+	$saida .= "<span class='sp-spaces'>Original 1:</span><span class='sp-login' title='$orig1Nome'>$orig1</span>%%opcoes1%%<span><strong>Valor pago: </strong></span><span>$valor1</span><br />";
 	
-	$saida .= "<span class='sp-spaces'>Original 2:</span><span class='sp-login'>$orig2</span><span><strong>Valor pago: </strong></span><span>$valor2</span><br />";
-	$saida .= "<span class='sp-spaces'>Fantasma:</span><span class='sp-login'>$orig3</span><span><strong>Valor pago: </strong></span><span>$valor3</span><br />";
+	$saida .= "<span class='sp-spaces'>Original 2:</span><span class='sp-login' title='$orig2Nome'>$orig2</span>%%opcoes2%%<span><strong>Valor pago: </strong></span><span>$valor2</span><br />";
+	$saida .= "<span class='sp-spaces'>Fantasma:</span><span class='sp-login' title='$orig3Nome'>$orig3</span>%%opcoes3%%<span><strong>Valor pago: </strong></span><span>$valor3</span><br />";
 	
 	if($c->getFechado() == 1){
-		$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'><a href='#' name='historico-grupo' id='historico_".$c->getId()."'>Ver Histórico</a></span><span class='sp-valores-totais-grupos'>Valor Total: </span>
+		
+	
+		$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'><a href='#' name='historico-grupo' id='historico_".$c->getId()."'>Ver Histórico</a></span>
+			<span style='width:47px;'></span><span class='sp-valores-totais-grupos'>Valor Total: </span>
 			<span class='sp-valores-totais-grupos'>".$simboloMoeda." ".number_format($c->getValor(), 2, ',', '.')."</span>";
 		if($c->getMoedaId() != 1){ //moeda estrangeira - mostrar conversão
-			$saida .= "<br /><span class='sp-spaces'>&nbsp;</span><span class='sp-login'></span><span class='sp-valores-totais-grupos'>Convertido(R$): </span>
+			$saida .= "<br /><span class='sp-spaces'>&nbsp;</span><span class='sp-login'></span><span style='width:47px;'></span>
+				<span class='sp-valores-totais-grupos'>Convertido(R$): </span>
 				<span class='sp-valores-totais-grupos'>R$ ".number_format($c->getValorConvertido(), 2, ',', '.')."</span><br />";
-			$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span class='sp-fator-conversao-grupos'>Fator Conversão: </span>
+			$saida .= "<span class='sp-spaces'>&nbsp;</span><span class='sp-login'>&nbsp;</span><span style='width:47px;'></span>
+				<span class='sp-fator-conversao-grupos'>Fator Conversão: </span>
 				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", number_format($c->getFatorConversao(), 2))."</span><br />";
-
 		}
-		
 	}
 	$saida .= "</div>";
+	$saida = str_replace("%%opcoes1%%", $opcoes1, $saida);	
+	$saida = str_replace("%%opcoes2%%", $opcoes2, $saida);
+	$saida = str_replace("%%opcoes3%%", $opcoes3, $saida);
+
 	echo json_encode($saida);
 	exit;
 }
@@ -247,8 +271,8 @@ function mostraHistorico(){
 	$dadosHist = $c->getDadosHistorico($idGrupo);
 	$saida = "";
 	$saida .= "<table><thead>";
-	$saida .= "<tr><th colspan=4 style='background-color:#984713; color:#F8C3A0'>Hist&oacute;rico do Grupo: ".stripslashes(utf8_decode($c->getNome()))."</th></tr>";
-	$saida .= "<tr><th>Linha do Tempo</th><th>Original 1</th><th>Original 2</th><th>Fantasma</th></tr></thead>";
+	$saida .= "<tr><th colspan=4 style='background-color:#28720F; color:#fff'>Hist&oacute;rico do Grupo: ".stripslashes(utf8_decode($c->getNome()))."</th></tr>";
+	$saida .= "<tr><th width='40%'>Linha do Tempo</th><th width='20%'>Original 1</th><th width='20%'>Original 2</th><th width='20%'>Fantasma</th></tr></thead>";
 	$saida .= "<tbody><tr>";
 	$cont = 0;
 	while($d = $dadosIniciais->fetch_object()){ //dados da criação da conta

@@ -318,6 +318,7 @@ $("#btn-grupo-novo").click(function(e){
 //********************************************************************************
 //LISTAGEM DE GRUPOS
 $("#div-listagem-grupos").find("[name='div-casulo-grupo'] img").click(function(){
+	var $selfId = $("#selfID").val();
 	var $id = $(this).parent().parent().attr('id').split("_")[1]; //ID do grupo
 	if($(this).attr("id") == "_0"){
 		$("#grupo-conteudo_"+$id)
@@ -328,7 +329,7 @@ $("#div-listagem-grupos").find("[name='div-casulo-grupo'] img").click(function()
 	}
 	var $elem = $(this);
 		
-	var pars = { id: $id, funcao: 'mostraGrupo'};
+	var pars = { id: $id, selfid: $selfId, funcao: 'mostraGrupo'};
 	$.ajax({
 		url: 'funcoes_ajax.php',
 		type: 'POST',

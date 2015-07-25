@@ -145,6 +145,9 @@
 				}
 			}
 		?>
+		<span><strong>Legenda (grupos fechados):</strong></span><br />
+		<span><img src='img/cash.gif' />&nbsp;&nbsp;Informar vaga repassada</span><br />
+		<span><img src='img/checkout.png' />&nbsp;&nbsp;Colocar vaga a venda</span>
 		</div>
 		<input type="hidden" id="hidFlag" value="0" />
 		

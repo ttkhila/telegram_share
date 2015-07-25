@@ -172,8 +172,8 @@ span.sp-form-direita{ display: inline-table; font-weight:bold;min-width: 60px; m
 .close { display:block; text-align:right; margin-bottom:10px; }   
 div#dialog table{width:100%;}
 div#dialog table tr{}
-div#dialog table th{background-color:#F1883D; color:#DF211D; border:solid 2px #000; text-align:center; }
-div#dialog table td{background-color:#FFC51E; color:#C44F03; border:solid 1px #000;}
+div#dialog table th{background-color:#96ED7A; color:#205C0C; border:solid 1px #205C0C; text-align:center; }
+div#dialog table td{background-color:#fff; color:#000000; border:solid 1px #205C0C;}
 div#dialog table th, td{padding:5px;}
 /* MODAL - fim*/
 
@@ -195,8 +195,10 @@ hr {clear:both; }
 
 .casulo-grupo-conteudo{margin-left:30px;margin-top:10px;} /* receptaculo do conteúdo dos títulos */
 .casulo-grupo-conteudo span{display:inline-table; margin-right:5px;}
-.sp-login{width:210px;}
+.sp-login{width:160px; cursor:help;}
+.sp-opcoes-vagas{width:50px;margin-left:0px; margin-right:10px;}
 .sp-spaces{width:75px; font-weight:bold;}
+.sp-link-historico{width:500px;}
 .casulo-conteudo-direita{width:38%;float:right;}
 .casulo-conteudo-esquerda{ width:62%; }
 .sp-sub-titulo-grupos{font-weight:bold; color:#f00; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}
@@ -204,3 +206,5 @@ hr {clear:both; }
 .sp-fator-conversao-grupos{font-weight:bold; color:#6B8E23; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}
 
 
+
+.sp-version{ text-align:center; font-size:11px;}
