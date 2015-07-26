@@ -222,13 +222,16 @@ function mostraGrupo(){
 
 	$saida .= "<div class='casulo-conteudo-esquerda'>";
 	
-	if($orig1ID == $selfID && $c->getFechado() == 1) $opcoes1 = "<span class='sp-opcoes-vagas'><img title='Informar vaga repassada' src='img/cash.gif' />&nbsp;&nbsp;<img title='Colocar vaga a venda' src='img/checkout.png' /></span>";
+	if($orig1ID == $selfID && $c->getFechado() == 1) $opcoes1 = "<span class='sp-opcoes-vagas'><img name='img-repasse' id='img-repasse_$idGrupo' rel='1' title='Informar vaga repassada' src='img/cash.gif' />
+		&nbsp;&nbsp;<img id='img-disponivel' title='Colocar vaga a venda' src='img/checkout.png' /></span>";
 	else $opcoes1 = "<span class='sp-opcoes-vagas'></span>";
 	
-	if($orig2ID == $selfID && $c->getFechado() == 1) $opcoes2 = "<span class='sp-opcoes-vagas'><img title='Informar vaga repassada' src='img/cash.gif' />&nbsp;&nbsp;<img title='Colocar vaga a venda' src='img/checkout.png' /></span>";
+	if($orig2ID == $selfID && $c->getFechado() == 1) $opcoes2 = "<span class='sp-opcoes-vagas'><img name='img-repasse' id='img-repasse_$idGrupo' rel='2' title='Informar vaga repassada' src='img/cash.gif' />
+		&nbsp;&nbsp;<img id='img-disponivel' title='Colocar vaga a venda' src='img/checkout.png' /></span>";
 	else $opcoes2 = "<span class='sp-opcoes-vagas'></span>";
 	
-	if($orig3ID == $selfID && $c->getFechado() == 1) $opcoes3 = "<span class='sp-opcoes-vagas'><img title='Informar vaga repassada' src='img/cash.gif' />&nbsp;&nbsp;<img title='Colocar vaga a venda' src='img/checkout.png' /></span>";
+	if($orig3ID == $selfID && $c->getFechado() == 1) $opcoes3 = "<span class='sp-opcoes-vagas'><img name='img-repasse' id='img-repasse_$idGrupo' rel='3' title='Informar vaga repassada' src='img/cash.gif' />
+		&nbsp;&nbsp;<img id='img-disponivel' title='Colocar vaga a venda' src='img/checkout.png' /></span>";
 	else $opcoes3 = "<span class='sp-opcoes-vagas'></span>";
 	
 	

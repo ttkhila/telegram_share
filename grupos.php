@@ -36,6 +36,7 @@
 		}).click(function(e){ e.preventDefault(); });
 		
 		$("[name='fecha_lista_jogos']").click(function(e){ $(this).parent().parent().fadeOut(); });
+
 	});	
 </script>
 </head>
@@ -98,21 +99,21 @@
 			<input type="hidden" name="original1_id" id="original1_id" />
 			<input type="text" name="original1" id="original1_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do usu&aacute;rio" />
 			<span class="sp-form-direita">Valor:</span>
-			<input type="text" class="monetario" name="valor" id="valor1" />
+			<input type="text" class="monetario" name="valor" id="valor1" maxlength="10" />
 			<button class="btn-limpar" id="1">Limpar</button><br />
 			
 			<span class="sp-form">Original 2 / ID:</span>
 			<input type="hidden" name="original2_id" id="original2_id" />
 			<input type="text" name="original2" id="original2_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do usu&aacute;rio" />
 			<span class="sp-form-direita">Valor:</span>
-			<input type="text" class="monetario" name="valor" id="valor2" />
+			<input type="text" class="monetario" name="valor" id="valor2" maxlength="10" />
 			<button class="btn-limpar" id="2">Limpar</button><br />
 			
 			<span class="sp-form">Fantasma / ID:</span>
 			<input type="hidden" name="original3_id" id="original3_id" />
 			<input type="text" name="original3" id="original3_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do usu&aacute;rio" />
 			<span class="sp-form-direita">Valor:</span>
-			<input type="text" class="monetario" name="valor" id="valor3" />
+			<input type="text" class="monetario" name="valor" id="valor3" maxlength="10" />
 			<button class="btn-limpar" id="3">Limpar</button><br /><br />
 			
 			<input type="checkbox" id="fechado" name="fechado" /><span class="sp-form">&nbsp;&nbsp;Grupo j&aacute; fechado?</span>&nbsp;&nbsp;
@@ -153,6 +154,19 @@
 		
 		<div id="boxes">
 			<div id="dialog" class="window"></div><!-- DIV que vai receber dados do histórico dos grupos selecionados -->
+			
+			<div id="repasse" class="window"><!-- DIV que vai receber formulario para cadastro de comprador da vaga -->
+				<center><span class="sp-titulo-modal">Dados do Comprador</span></center><br />
+				<form>
+					<input type="hidden" name="original-repasse_id" id="original-repasse_id" />
+					<span class="sp-campos-modal">ID Comprador:</span>
+					<span><input type="text" name="original-repasse" id="original-repasse_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do comprador" /></span>
+					<span class="sp-form" id="original-repasse_check"><img src="" alt="" /></span><br />
+					<span class="sp-campos-modal">Valor (em reais):</span><span><input type="text" class="monetario" name="valor" id="valor2" maxlength="10" /></span><br />
+					<span class="sp-campos-modal"></span><button class="btn-padrao">Ok</button>
+				</form>
+			</div>
+			
 			<div id="mask"></div>
 		</div>
 		<!-- Meus Grupos: Fim-->

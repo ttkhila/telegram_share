@@ -158,6 +158,7 @@ span.sp-form-direita{ display: inline-table; font-weight:bold;min-width: 60px; m
 	display:none;
 	z-index:9999;
 	padding:20px;
+	border-radius:10px;
 }
 /* Personalize a janela modal aqui. Você pode adicionar uma imagem de fundo. */
 #boxes #dialog { 
@@ -170,12 +171,25 @@ span.sp-form-direita{ display: inline-table; font-weight:bold;min-width: 60px; m
 }
 /* posiciona o link para fechar a janela */
 .close { display:block; text-align:right; margin-bottom:10px; }   
+/* MODAL - fim*/
+/*Janelas Modais*/
 div#dialog table{width:100%;}
 div#dialog table tr{}
 div#dialog table th{background-color:#96ED7A; color:#205C0C; border:solid 1px #205C0C; text-align:center; }
 div#dialog table td{background-color:#fff; color:#000000; border:solid 1px #205C0C;}
 div#dialog table th, td{padding:5px;}
-/* MODAL - fim*/
+
+#boxes #repasse{
+	width:550px; 
+	height:180px; 
+	background-color:#fff; 
+	border:solid 3px #000; 
+}
+.sp-campos-modal{display:inline-block; width:120px;}
+
+.sp-titulo-modal{font:bold 1.2em Verdana, Geneva, Arial, Helvetica, sans-serif;}
+
+
 
 /* APresentação dos grupos de um usuário */
 .container-grupos{
@@ -197,6 +211,7 @@ hr {clear:both; }
 .casulo-grupo-conteudo span{display:inline-table; margin-right:5px;}
 .sp-login{width:160px; cursor:help;}
 .sp-opcoes-vagas{width:50px;margin-left:0px; margin-right:10px;}
+.sp-opcoes-vagas img{cursor: pointer;}
 .sp-spaces{width:75px; font-weight:bold;}
 .sp-link-historico{width:500px;}
 .casulo-conteudo-direita{width:38%;float:right;}

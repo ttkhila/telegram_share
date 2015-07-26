@@ -37,7 +37,7 @@ $(function(){
 	}
 	
 	function closeModal(){
-		return '<a href="#" class="close">Fechar [X]</a><br />';
+		return '<a href="#" class="close">Fechar [X]</a>';
 	}
 	
 	$('.window').on('click', '.close', function (e) {
@@ -155,11 +155,34 @@ autoCompleteClassName: 'autocomplete',
 	attrCallBack: 'rel',
 	identifier: 'original3'
 },original3Callback);
-
 function original3Callback( par ){ 
 	$('#original3_autocomplete').val(par[1]);
 	$('#original3_id').val(par[0]);
 }
+
+//Repasse de conta
+$("#repasse").on("keydown","#original-repasse_autocomplete",function(e) {
+if (!$(this).data("simpleAutoComplete")) { 
+		var tecla = e.which;
+		if(tecla != 9 && tecla != 13){
+			$("#original-repasse_id").val("");
+			$("#original-repasse_check img").prop({'src':"img/uncheck.png"});
+		}
+        $(this).simpleAutoComplete(
+            'autocomplete_ajax.php',{
+				autoCompleteClassName: 'autocomplete',
+				selectedClassName: 'sel',
+				attrCallBack: 'rel',
+				identifier: 'original-repasse'
+		},originalRepasseCallback);
+    }
+});
+function originalRepasseCallback( par ){ 
+	$('#original-repasse_autocomplete').val(par[1]);
+	$('#original-repasse_id').val(par[0]);
+	$('#original-repasse_check img').prop({'src':"img/check.png"});
+}
+
 
 //jogos
 $("#div-novo-grupo").on("keydown","[name='jogo[]']",function(e) {
@@ -176,7 +199,7 @@ $("#div-novo-grupo").on("keydown","[name='jogo[]']",function(e) {
 				selectedClassName: 'sel',
 				attrCallBack: 'rel',
 				identifier: 'jogo'
-			},jogoCallback);
+		},jogoCallback);
     }
 });
 function jogoCallback( par ){ 
@@ -385,9 +408,22 @@ $(".casulo-grupo-conteudo").on("click", "[name='historico-grupo']", function(e){
 		}
 	});
 });
-
 //********************************************************************************
-
+$(".container-grupos").on("click", "[name='img-repasse']", function(){
+	var $vaga = parseInt($(this).attr("rel"));
+	/*
+	 * 
+	 * 
+	 * Gravar os dados do repasse
+	 * 
+	 * 
+	 * 
+	 */
+	alert("VAGA = "+$vaga);
+	$elemTop = parseInt($(this).offset().top);
+	$(".close").html("");
+	abreModal("#repasse", closeModal()+$("#repasse").html(), $elemTop);
+});
 //********************************************************************************
 
 //********************************************************************************
