@@ -1,5 +1,7 @@
 $(function(){ 
 	var QTD_JOGOS_CADASTRO = 1;
+	var VAGA_REPASSE;
+	var GRUPO_REPASSE;
 	var JOGO_AUTOCOMPLETE;
 	var FLAG_HISTORICO = 0;
 	
@@ -410,22 +412,76 @@ $(".casulo-grupo-conteudo").on("click", "[name='historico-grupo']", function(e){
 });
 //********************************************************************************
 $(".container-grupos").on("click", "[name='img-repasse']", function(){
-	var $vaga = parseInt($(this).attr("rel"));
-	/*
-	 * 
-	 * 
-	 * Gravar os dados do repasse
-	 * 
-	 * 
-	 * 
-	 */
-	alert("VAGA = "+$vaga);
+	VAGA_REPASSE = $(this).attr('rel');
+	GRUPO_REPASSE = parseInt($(this).attr("id").split("_")[1]);
 	$elemTop = parseInt($(this).offset().top);
 	$(".close").html("");
 	abreModal("#repasse", closeModal()+$("#repasse").html(), $elemTop);
 });
 //********************************************************************************
+$("#repasse").on("click", "#btn-confirma-repasse", function(){
+	var $erros = new Array();
+	var $vaga = VAGA_REPASSE;
+	var $grupo = GRUPO_REPASSE;
+	//alert($grupo); return;
+	$valor = $.trim($("#valor").val());
+	$valor = $valor.replace(",", ".");
+	$comprador = $("#original-repasse_id").val();
+	$data_venda = $("#data_venda").val();
+	if ($("#alterou_senha").is(":checked")) $alterou_senha = 1; else $alterou_senha = 0;
+	
+	if($comprador == ""){ $erros.push("- Informe um comprador válido.<br />"); }
+	if($valor == "") { $erros.push("- Digite o valor da transação.<br />"); }
+	if(!$.isNumeric($valor) && $valor != ""){ $erros.push("- [Valor] precisa ser numérico.<br />"); }
+	
+	if($data_venda == "") { $erros.push("- Data Inválida."); }
+	if($erros.length > 0){
+		$(".sp-erro-msg-modal")
+			.fadeIn()
+			.html($erros)
+			.delay(2000)
+			.fadeOut('slow');
+		return;
+	}
 
+	var pars = { grupo: $grupo, vaga: $vaga, comprador: $comprador, valor: $valor, data_venda: $data_venda, alterou_senha: $alterou_senha, funcao: 'gravaRepasse'};
+	$.ajax({
+		url: 'funcoes_ajax.php',
+		type: 'POST',
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded;charset=UFT-8",
+		data: pars,
+		beforeSend: function() { $("img.pull-right").fadeIn('fast'); },
+		complete: function(){ $("img.pull-right").fadeOut('fast'); },
+		success: function(data){ 
+			console.log(data);
+		
+			if(data == 1){ //sucesso
+				location.reload();
+			} else { //erro
+				$error = "";
+				$.each(data, function(i, item) {
+					var qtd = item.length;
+					for(var z=0;z<qtd;z++)
+						$error += "- "+item[z]+"<br />";
+				});
+				//$(document).scrollTop( $("#foco").offset().top );
+				$(".sp-erro-msg-modal")
+					.fadeIn()
+					.html($error)
+					.delay(2500)
+					.fadeOut('slow');
+			}
+		
+		
+		
+		
+		
+		
+		
+		}
+	});
+});
 //********************************************************************************
 
 //********************************************************************************
