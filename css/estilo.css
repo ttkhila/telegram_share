@@ -234,6 +234,4 @@ hr {clear:both; }
 .sp-valores-totais-grupos{font-weight:bold; color:#4682B4; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}
 .sp-fator-conversao-grupos{font-weight:bold; color:#6B8E23; font:bold 1.1em "Times New Roman",Bodoni,Garamond,"Minion Web","ITC Stone Serif","MS Georgia","Bitstream Cyberbit";}
 
-
-
-.sp-version{ text-align:center; font-size:11px;}
+.sp-version{ display:inline-table; margin-top:10px; text-align:center; font-size:11px;}

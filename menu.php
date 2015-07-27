@@ -10,16 +10,16 @@
         <div class="nav-collapse">
           <ul class="nav">
             <li><a href="./">Home</a></li>
-            <li><a href="#">xxxxxxxx</a></li>
             <li><a href="grupos.php">Grupos</a></li>
+           	<!--<li><a href="#">xxxxxxxx</a></li>            
             <li><a href="#">xxxxxxxx</a></li>
-            <li><a href="#">xxxxxxxx</a></li>
+            <li><a href="#">xxxxxxxx</a></li>-->
             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
             %%user%%
           </ul>    
         </div>
         <form class="navbar-form pull-right">
-          <img src="/telegram_share/img/ajax-loader.gif" class="pull-right" style="display:none;">
+          <img src="img/ajax-loader.gif" class="pull-right" style="display:none;">
         </form>
       </div>
     </div>

@@ -130,12 +130,12 @@ function novoGrupo(){
 			require_once 'funcoes.php';
 			$data = date('Y-m-d');
 			$moeda = between("(", ")", $moeda);
-			$fator = 3.14; //provisório
+			//$fator = 3.14; //provisório
 			// Não está funcionando para ambiente externo dentro do banco
 			
-			//$url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22".$moeda."BRL%22)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-			//$xml = simplexml_load_file($url);
-			//$fator = number_format(floatval($xml->results->rate->Rate), 2);
+			$url = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20(%22".$moeda."BRL%22)&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+			$xml = simplexml_load_file($url);
+			$fator = number_format(floatval($xml->results->rate->Rate), 2);
 			
 			if ($moeda != "BRL") $valor_convertido = $soma * $fator;
 			else $valor_convertido = $soma;
@@ -257,7 +257,7 @@ function mostraGrupo(){
 				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", number_format($c->getFatorConversao(), 2))."</span><br />";
 		}
 	}
-	$saida .= "<br /><span class='sp-version'>*Valores originais referentes a compra da conta sem levar em consideração os repasses da mesma.</span>";
+	$saida .= "<span class='sp-version'>*Valores originais referentes a compra da conta sem levar em consideração os repasses da mesma.</span>";
 	$saida .= "</div>";
 	$saida = str_replace("%%opcoes1%%", $opcoes1, $saida);	
 	$saida = str_replace("%%opcoes2%%", $opcoes2, $saida);
