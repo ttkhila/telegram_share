@@ -95,7 +95,23 @@ body{text-align:center; /* hack para o IE */}
 }
 div.sp-erro-msg span{float:right; text-align:right; margin-right:10px; font:bold 0.9em "Courier"; cursor:pointer; position:relative; top:0; }
 
+.sp-erro-msg-modal{
+	position:absolute;
+	z-index:9997;
+	background-color:#F70E1C;
+	color:#F4F80A;
+	min-height: #30px;
+	top:10px;
+	left:150px;
+	padding:10px;
+	font-size: 1.2em;
+	font-weight:bold;
+	display:none;
+	border-radius:7px;
+}
+
 .monetario{width: 80px; text-align: right; }
+input[type="date"]{ width: 150px; }
 
 /*TOOLTIP*/
 .tooltip_help {
@@ -156,7 +172,7 @@ span.sp-form-direita{ display: inline-table; font-weight:bold;min-width: 60px; m
 	width:440px;
 	height:200px;
 	display:none;
-	z-index:9999;
+	z-index:9997;
 	padding:20px;
 	border-radius:10px;
 }
@@ -181,15 +197,13 @@ div#dialog table th, td{padding:5px;}
 
 #boxes #repasse{
 	width:550px; 
-	height:180px; 
+	height:220px; 
 	background-color:#fff; 
 	border:solid 3px #000; 
 }
 .sp-campos-modal{display:inline-block; width:120px;}
 
 .sp-titulo-modal{font:bold 1.2em Verdana, Geneva, Arial, Helvetica, sans-serif;}
-
-
 
 /* APresentação dos grupos de um usuário */
 .container-grupos{

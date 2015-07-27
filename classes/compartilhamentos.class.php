@@ -173,5 +173,34 @@ class compartilhamentos{
 		return $res;
 	}
 //---------------------------------------------------------------------------------------------------------------
+	//verifica se o Usuario eh dono da vaga informada. Seguranca contra fraude
+	public function is_thisGroup($idUsuario, $idGrupo, $vaga){
+		if($vaga == 1) $vaga = "original1_id";
+		else if ($vaga == 2)  $vaga = "original2_id";
+		else $vaga = "original3_id";
+		
+		$query = "SELECT * from compartilhamentos WHERE id = $idGrupo AND $vaga = $idUsuario";
+		try { $res = $this->con->multiConsulta($query); } catch(Exception $e) { return $e.message; }
+		if($res->num_rows == 0)
+			return FALSE; //fraude. Valor alterado via HTML
+		else
+			return TRUE;
+	}
+//---------------------------------------------------------------------------------------------------------------
+	public function gravaRepasse($grupoID, $vendedorID, $compradorID, $vaga, $valor_pago, $data, $senha_alterada = 0){
+		if($vaga == 1) $vagaNome = "original1_id";
+		else if ($vaga == 2)  $vagaNome = "original2_id";
+		else $vagaNome = "original3_id";
+		//grava alteração no registro de compartilhamento inserindo novo dono na vaga correspondente
+		$query = "UPDATE compartilhamentos SET $vagaNome = $compradorID WHERE id = $grupoID";
+		try{ $this->con->executa($query); } catch(Exception $e) { return $e.message; }
+		
+		//insere novo Histórico
+		$query = "INSERT INTO historicos (compartilhamento_id, vendedor_id, comprador_id, vaga, valor_pago, data_venda, senha_alterada) VALUES ($grupoID, $vendedorID, $compradorID, '$vaga', $valor_pago, '$data', $senha_alterada)";
+		try{ $this->con->executa($query); } catch(Exception $e) { return $e.message; }
+		
+		return TRUE;
+	}
+//---------------------------------------------------------------------------------------------------------------
 }
 ?>

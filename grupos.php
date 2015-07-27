@@ -152,19 +152,21 @@
 		</div>
 		<input type="hidden" id="hidFlag" value="0" />
 		
+		<!-- Janelas Modais -->
 		<div id="boxes">
 			<div id="dialog" class="window"></div><!-- DIV que vai receber dados do histórico dos grupos selecionados -->
 			
 			<div id="repasse" class="window"><!-- DIV que vai receber formulario para cadastro de comprador da vaga -->
 				<center><span class="sp-titulo-modal">Dados do Comprador</span></center><br />
-				<form>
-					<input type="hidden" name="original-repasse_id" id="original-repasse_id" />
-					<span class="sp-campos-modal">ID Comprador:</span>
-					<span><input type="text" name="original-repasse" id="original-repasse_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do comprador" /></span>
-					<span class="sp-form" id="original-repasse_check"><img src="" alt="" /></span><br />
-					<span class="sp-campos-modal">Valor (em reais):</span><span><input type="text" class="monetario" name="valor" id="valor2" maxlength="10" /></span><br />
-					<span class="sp-campos-modal"></span><button class="btn-padrao">Ok</button>
-				</form>
+				<input type="hidden" name="original-repasse_id" id="original-repasse_id" />
+				<span class="sp-campos-modal">ID Comprador:</span>
+				<span><input type="text" name="original-repasse" id="original-repasse_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do ID do comprador" required="" /></span>
+				<span class="sp-form" id="original-repasse_check"><img src="" alt="" /></span><br />
+				<span class="sp-campos-modal">Valor (em reais):</span><span><input type="text" class="monetario" name="valor" id="valor" maxlength="10" required="" /></span><br />
+				<span class="sp-campos-modal">Data da venda:</span><span><input type="date" name="data_venda" id="data_venda" value="<?php echo date('Y-m-d'); ?>" /></span><br />
+				<span class="sp-campos-modal">Alterou a senha?</span><span><input type="checkbox" name="alterou_senha" id="alterou_senha" /></span><br /><br />
+				<span class="sp-campos-modal"></span><button id="btn-confirma-repasse" class="btn-padrao">Ok</button>
+				<span class='sp-erro-msg-modal'></span>
 			</div>
 			
 			<div id="mask"></div>

@@ -235,7 +235,7 @@ function mostraGrupo(){
 	else $opcoes3 = "<span class='sp-opcoes-vagas'></span>";
 	
 	
-	$saida .= "<span class='sp-sub-titulo-grupos'>Vagas/Valores ($nomeMoeda):</span><br />";
+	$saida .= "<span class='sp-sub-titulo-grupos'>Vagas/Valores originais* ($nomeMoeda):</span><br />";
 	
 	$saida .= "<span class='sp-spaces'>Original 1:</span><span class='sp-login' title='$orig1Nome'>$orig1</span>%%opcoes1%%<span><strong>Valor pago: </strong></span><span>$valor1</span><br />";
 	
@@ -257,6 +257,7 @@ function mostraGrupo(){
 				<span class='sp-fator-conversao-grupos'>".$simboloMoeda." 1,00 = R$ ".str_replace(".", ",", number_format($c->getFatorConversao(), 2))."</span><br />";
 		}
 	}
+	$saida .= "<br /><span class='sp-version'>*Valores originais referentes a compra da conta sem levar em consideração os repasses da mesma.</span>";
 	$saida .= "</div>";
 	$saida = str_replace("%%opcoes1%%", $opcoes1, $saida);	
 	$saida = str_replace("%%opcoes2%%", $opcoes2, $saida);
@@ -311,7 +312,42 @@ function mostraHistorico(){
 	exit;
 }
 //----------------------------------------------------------------------------------------------------------------------------
-
+function gravaRepasse(){
+	session_start();
+	$idGrupo = $_POST['grupo'];
+	$vaga = $_POST['vaga'];
+	$compradorID = $_POST['comprador'];
+	$valor = $_POST['valor'];
+	$data_venda = $_POST['data_venda'];
+	$vendedor = $_SESSION['ID'];
+	$alterou_senha = $_POST['alterou_senha'];
+	
+	$v = carregaClasse('Validacao');
+	$c = carregaClasse('Compartilhamento');
+	//echo json_encode("GRUPO ".$idGrupo." / vaga ".$vaga." / comprador ".$compradorID." / valor ".$valor." / Data ".$data_venda." / Vendedor ".$vendedor);
+	$ret = $c->is_thisGroup($vendedor, $idGrupo, $vaga);
+	if(!$ret){
+		$v->set('Comprador', '')->set_error("Falha na autenticação do usuário.");
+		 $erros = $v->get_errors();
+		 echo json_encode($erros); 
+		 exit;
+	}
+	$v->set("Comprador", $compradorID)->is_required(); //Comprador ID
+	if($compradorID === $vendedor) $v->set('Comprador', '')->set_error("O comprador deve ser diferente do vendedor.");
+	$v->set("Valor", str_replace(",", ".", $valor))->is_required()->is_float(); //VALOR
+	$v->set("Data", $data_venda)->is_date(); // Data Venda
+	//echo json_encode("dwqqwdqwdq"); exit;
+	
+	if($v->validate()){
+		$ret = $c->gravaRepasse($idGrupo, $vendedor, $compradorID, $vaga, $valor, $data_venda, $alterou_senha);
+		if($ret) echo json_encode(1);
+		else echo json_encode($ret);
+	}else{
+		 $erros = $v->get_errors();
+		 echo json_encode($erros);
+	}
+	exit;
+}
 //----------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------
