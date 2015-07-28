@@ -13,7 +13,7 @@ class usuarios{
 	private $con;
 
 	public function __construct(){
-		include_once 'conexao.class.php';
+		include_once 'conexao.class.php'; 
 		$this->con = new conexao();
 		$this->con->abreConexao();
 	}
