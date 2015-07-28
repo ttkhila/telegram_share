@@ -56,7 +56,6 @@ $(function(){
 //LOGIN
 $("#frmLogin").submit(function(e){
 	e.preventDefault(); //previne o evento 'normal'
-		
 	var $form = $(this).serialize();
 	$form = decodeURI(replaceAll($form, '+', ' ')); //retira alguns caracteres especiais   
 	$form = $form.split('&'); //transforma em array, separado pelo "&"
