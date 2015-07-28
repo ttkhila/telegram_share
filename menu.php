@@ -9,12 +9,12 @@
         <a class="brand" href="#">Telegram</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a href="./">Home</a></li>
-            <li><a href="grupos.php">Grupos</a></li>
-           	<!--<li><a href="#">xxxxxxxx</a></li>            
-            <li><a href="#">xxxxxxxx</a></li>
-            <li><a href="#">xxxxxxxx</a></li>-->
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+		<li><a href="./">Home</a></li>
+		<li><a href="grupos.php">Grupos</a></li>
+		<li><a href="jogos.php">Jogos</a></li>            
+		<!--<li><a href="#">xxxxxxxx</a></li>
+		<li><a href="#">xxxxxxxx</a></li>-->
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
             %%user%%
           </ul>    
         </div>

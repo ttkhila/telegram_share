@@ -472,16 +472,18 @@ $("#repasse").on("click", "#btn-confirma-repasse", function(){
 					.fadeOut('slow');
 			}
 		
-		
-		
-		
-		
-		
-		
 		}
 	});
 });
 //********************************************************************************
+$('#frm-cadastra-jogos').submit(function(e){
+	e.preventDefault();
+	
+	var $form = $(this).serialize();
+	$form = decodeURI(replaceAll($form, '+', ' ')); //retira alguns caracteres especiais
+	
+	alert($form);
+});
 
 //********************************************************************************
 

@@ -8,10 +8,8 @@ call_user_func($fx); //chama a função passada como parametro
 //----------------------------------------------------------------------------------------------------------------------------
 function realizaLogin(){  
     $form = $_POST['dados'];
-
     $u = carregaClasse('Usuario');
     //$form = explode("&", $form);
-    
     $dados = array();
 	
     foreach($form as $valor){

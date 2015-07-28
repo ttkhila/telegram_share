@@ -2,7 +2,5 @@
 *.pyc
 *.pyo
 classes/conexao.class.php
-classes/conexao.class.php
 spider.php
 arquivos
-spider.php

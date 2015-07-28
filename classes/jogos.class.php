@@ -63,5 +63,12 @@ class jogos{
 		return 1;
 	}
 //---------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------
+	public function getPlataformas(){
+		$query = "SELECT * FROM plataformas ORDER BY nome";
+		try { $res = $this->con->multiConsulta($query); } catch(Exception $e) { return $e.message; }
+		
+		return $res;
+	}
 }
 ?>
