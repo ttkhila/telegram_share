@@ -292,15 +292,16 @@ function mostraHistorico(){
 	
 	if($dadosHist->num_rows > 0){ //a conta já foi repassada ao menos uma vez depois da criação
 		while($d = $dadosHist->fetch_object()){ //dados do histórico da conta já repassada
+			if($d->senha_alterada == 1) $senha = "(Senha Alterada)"; else $senha = "";
 			$phpdate = strtotime($d->data_venda);
 			$data_venda = date( 'd-m-Y', $phpdate );
 			$saida .= "<tr><td>$data_venda</td>";
 			if($d->vaga == '1') { //Original 1
-				$saida .= "<td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				$saida .= "<td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))." <span>$senha</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			} else if($d->vaga == '2') { //Original 1
-				$saida .= "<td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td><td>&nbsp;</td></tr>";
+				$saida .= "<td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))." <span>$senha</span></td><td>&nbsp;</td></tr>";
 			} else if($d->vaga == '3') { //Original 1
-				$saida .= "<td>&nbsp;</td><td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td></tr>";
+				$saida .= "<td>&nbsp;</td><td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))." <span>$senha</span></td></tr>";
 			}	
 		}
 	}
