@@ -23,7 +23,7 @@
 	<h2>Jogos</h2>
 	
 	<div id="div-conteudo-abas-jogos">
-		<div class="aba-jogos"> <span>Cadastro</span><span>Alteração</span><span>Exclusão</span> </div>
+		<div class="aba-jogos"> <span>Cadastro</span><span>Alteração</span></div>
 		<div class="sp-erro-msg" style="display:none;"></div><!-- mensagem de erro -->
 		<!-- Cadastro - Início -->
 		<div id="div-cadastra-jogos" style="display:none;">
@@ -61,7 +61,8 @@
 						?>
 					</select>
 				</span><br />
-				<span>&nbsp;</span><span><button>Confirma</button></span>
+				<span>&nbsp;</span><span id="sp-ativo-altera"></span><br /><br />
+				<span>&nbsp;</span><span><button>Alterar</button></span>
 			</form>
 		</div>
 		<!-- Alteração - Fim -->

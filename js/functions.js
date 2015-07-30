@@ -189,9 +189,14 @@ $('#jogo-nome-altera_autocomplete').simpleAutoComplete('autocomplete_jogos_ajax.
 autoCompleteClassName: 'autocomplete',
 	selectedClassName: 'sel',
 	attrCallBack: 'rel',
-	identifier: 'jogo'
+	identifier: 'jogo-altera'
 },jogo_nome_altera);
 function jogo_nome_altera( par ){
+	/* par[0] = ID
+	 * par[1] = NOME
+	 * par[2] = plataforma_id
+	 * par[3] = Ativo/Inativo (1/0)
+	 */
 	var char1 = parseInt(par[1].indexOf("("));
 	var nome = par[1].substring(0, char1-1); //nome sem a abrev da plataforma
 	$('#jogo-nome-altera_autocomplete').val(par[1]);
@@ -199,12 +204,10 @@ function jogo_nome_altera( par ){
 	$('#jogo-nome-altera_id').val(par[0]);
 	$("#plataforma-altera").find("option[value='"+par[2]+"']").prop("selected", "selected");
 	$("#frm-altera-jogos").show();
+	if(par[3] == 1) $html = "Jogo Ativo -> <a href='#' name='a-ativar' rel='0'>Desativar Jogo</a>";
+	else $html = "Jogo Desativado -> <a href='#' name='a-ativar' rel='1'>Ativar Jogo</a>";
 	
-	
-	var str = "Hello world, welcome to the universe.";
-var n = str.indexOf("welcome");
-	var str = "Hello world!";
-var res = str.substring(1, 4);
+	$("#sp-ativo-altera").html($html);
 }
 
 //jogos
@@ -536,12 +539,13 @@ $('#frm-cadastra-jogos').submit(function(e){
 $('#frm-altera-jogos').submit(function(e){
 	e.preventDefault();
 	$formulario = $(this);
-	//if($("#nome-jogo-altera").val() == ""){
-		//$(".sp-erro-msg")
-			//.fadeIn()
-			//.html("Preencha o nome do jogo.<span>x</span>");
-		//return false;
-	//}
+	if($("#nome-jogo-altera").val() == ""){
+		$(".sp-erro-msg")
+			.fadeIn()
+			.css({ 'background-color': '#f00', 'color': '#ff0' })
+			.html("Preencha o nome do jogo.<span>x</span>");
+		return false;
+	}
 	var $form = $(this).serialize();
 	$form = decodeURI(replaceAll($form, '+', ' ')); //retira alguns caracteres especiais
 	$form = $form.split("&");
@@ -569,7 +573,30 @@ $('#frm-altera-jogos').submit(function(e){
 	});
 });
 //********************************************************************************
+$("#div-altera-jogos").on("click", "[name='a-ativar']", function(e){
+	e.preventDefault();
+	var $flag = parseInt($(this).attr('rel'));
+	var $id = parseInt($("#jogo-nome-altera_id").val());
+	var pars = { id: $id, flag: $flag, funcao: 'ativaInativaJogo'};
+	$.ajax({
+		url: 'funcoes_ajax.php',
+		type: 'POST',
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded;charset=UFT-8",
+		data: pars,
+		beforeSend: function() { $("img.pull-right").fadeIn('fast'); },
+		complete: function(){ $("img.pull-right").fadeOut('fast'); },
+		success: function(data){ 
+			console.log(data);
 
+			if($flag == 1) $html = "Jogo Ativo -> <a href='#' name='a-ativar' rel='0'>Desativar Jogo</a>";
+			else $html = "Jogo Desativado -> <a href='#' name='a-ativar' rel='1'>Ativar Jogo</a>";
+			$("#sp-ativo-altera").html($html);
+			$(".sp-erro-msg").css({ 'background-color': '#0F16E4', 'color': '#fff' });
+			$(".sp-erro-msg").fadeIn().html(data+"<span>x</span>");
+		}
+	});
+});
 //********************************************************************************  
 
 //********************************************************************************  

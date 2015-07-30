@@ -380,7 +380,14 @@ function alteraJogo(){
 	exit;
 }
 //----------------------------------------------------------------------------------------------------------------------------
-
+function ativaInativaJogo(){
+	$id = $_POST['id'];
+	$flag = $_POST['flag'];
+	$j = carregaClasse('Jogo');
+	$j->carregaDados($id);
+	echo json_encode($j->ativo_inativo_alterna($flag));
+	exit;
+}
 //----------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------
@@ -425,8 +432,6 @@ function alteraJogo(){
 
 //----------------------------------------------------------------------------------------------------------------------------
 // carrega classe solicitada e devolve uma instancia da mesma
-// ATENÇÃO: ESTA FUNÇÃO DEVE SER AÚLTIMA DA PÁGINA.
-// NÃO INSERIR NADA ABAIXO DESSA
 function carregaClasse($secao){
 	switch ($secao) {
 		case 'Compartilhamento':
