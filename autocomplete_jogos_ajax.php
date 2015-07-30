@@ -12,7 +12,7 @@ if( isset( $_REQUEST['query'] ) && $_REQUEST['query'] != "" ){
 			while( $l = $r->fetch_array() ){
 				$p = $l['nome'].' ('.$l['plataforma'].')';
 				$p = preg_replace('/(' . $q . ')/i', '<span style="font-weight:bold;">$1</span>', $p);
-				echo "\t".'<li id="autocomplete_'.$l['id'].'" rel="'.$l['id'].'|'.$l['nome'].' ('.$l['plataforma'].')">'. utf8_encode( $p ) .'</li>'."\n";
+				echo "\t".'<li id="autocomplete_'.$l['id'].'" rel="'.$l['id'].'|'.$l['nome'].' ('.$l['plataforma'].')|'.$l['plataforma_id'].'">'. utf8_encode( $p ) .'</li>'."\n";
 			}
 			echo '</ul>';
 		}
