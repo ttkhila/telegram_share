@@ -292,15 +292,16 @@ function mostraHistorico(){
 	
 	if($dadosHist->num_rows > 0){ //a conta já foi repassada ao menos uma vez depois da criação
 		while($d = $dadosHist->fetch_object()){ //dados do histórico da conta já repassada
+			if($d->senha_alterada == 1) $senha = "(Senha Alterada)"; else $senha = "";
 			$phpdate = strtotime($d->data_venda);
 			$data_venda = date( 'd-m-Y', $phpdate );
 			$saida .= "<tr><td>$data_venda</td>";
 			if($d->vaga == '1') { //Original 1
-				$saida .= "<td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				$saida .= "<td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))." <span>$senha</span></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			} else if($d->vaga == '2') { //Original 1
-				$saida .= "<td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td><td>&nbsp;</td></tr>";
+				$saida .= "<td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))." <span>$senha</span></td><td>&nbsp;</td></tr>";
 			} else if($d->vaga == '3') { //Original 1
-				$saida .= "<td>&nbsp;</td><td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))."</td></tr>";
+				$saida .= "<td>&nbsp;</td><td>&nbsp;</td><td title='".stripslashes(utf8_decode($d->nome_comprador))."'>".stripslashes(utf8_decode($d->login_comprador))." <span>$senha</span></td></tr>";
 			}	
 		}
 	}
@@ -348,9 +349,36 @@ function gravaRepasse(){
 	exit;
 }
 //----------------------------------------------------------------------------------------------------------------------------
-
+function gravaJogo(){
+	$dados = $_POST['dados'];
+	$j = carregaClasse('Jogo');
+	$dado = array(); //Ordem dos valores (NOME, PLATAFORMA)
+	foreach($dados as $valor){
+		$valor = explode("=", $valor);
+		if (trim($valor[1]) == ""){ echo json_encode(array(1, "Preencha os campos")); exit; }
+		array_push($dado, rawurldecode($valor[1]));
+	}
+	//echo json_encode($dado);
+	$j->gravaJogo($dado);
+	echo json_encode(array(0, "Jogo Cadastrado"));
+	exit;
+}
 //----------------------------------------------------------------------------------------------------------------------------
-
+//----------------------------------------------------------------------------------------------------------------------------
+function alteraJogo(){
+	$dados = $_POST['dados'];
+	$j = carregaClasse('Jogo');
+	$dado = array(); //Ordem dos valores (ID, NOME, PLATAFORMA)
+	foreach($dados as $valor){
+		$valor = explode("=", $valor);
+		if (trim($valor[1]) == ""){ echo json_encode(array(1, "Preencha os campos")); exit; }
+		array_push($dado, rawurldecode($valor[1]));
+	}
+	//echo json_encode($dado);exit;
+	$j->alteraJogo($dado);
+	echo json_encode(array(0, "Jogo Alterado"));
+	exit;
+}
 //----------------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------------------------------------

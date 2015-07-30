@@ -29,14 +29,6 @@
 				$(this).prop('name', 'abre');
 			}
 		});
-		
-		$("[name='lista_jogos']").mousemove(function(e){
-			e.preventDefault(); //previne o evento 'normal'
-			$(".div-suspenso-jogos").slideDown('slow');
-		}).click(function(e){ e.preventDefault(); });
-		
-		$("[name='fecha_lista_jogos']").click(function(e){ $(this).parent().parent().fadeOut(); });
-
 	});	
 </script>
 </head>
@@ -79,15 +71,6 @@
 			<input type="text" name="jogo[]" id="jogo1_autocomplete" autocomplete="off" style="width:250px;" placeholder="Digite parte do nome do jogo" required="" />
 			<span class="sp-form" id="jogo1_check"><img src="" /></span>
 			<button id="btn-add-jogo">+ Jogo</button>&nbsp;&nbsp;
-			<a href="#" name="lista_jogos">Lista dos jogos</a>&nbsp;&nbsp;&nbsp;&nbsp;
-			<div class='div-suspenso-jogos' style="display:none"><!-- Lista de jogos -->
-				<span id="sp-fecha-lista" style="float:right;">Fechar<a href="#" name="fecha_lista_jogos">[X]</a></span><br />
-				<?php
-					while($dados = $jogos->fetch_object()){
-						echo stripslashes(utf8_decode($dados->nome))." (".stripslashes(utf8_decode($dados->plataforma)).")<br />";
-					}
-				?>
-			</div>
 			<!--campos dinamicos -->
 			<div id="div-jogos-extras"></div><br /><br />
 

@@ -184,6 +184,28 @@ function originalRepasseCallback( par ){
 	$('#original-repasse_check img').prop({'src':"img/check.png"});
 }
 
+// Jogos - Alteração Cadastro
+$('#jogo-nome-altera_autocomplete').simpleAutoComplete('autocomplete_jogos_ajax.php',{
+autoCompleteClassName: 'autocomplete',
+	selectedClassName: 'sel',
+	attrCallBack: 'rel',
+	identifier: 'jogo'
+},jogo_nome_altera);
+function jogo_nome_altera( par ){
+	var char1 = parseInt(par[1].indexOf("("));
+	var nome = par[1].substring(0, char1-1); //nome sem a abrev da plataforma
+	$('#jogo-nome-altera_autocomplete').val(par[1]);
+	$('#nome-jogo-altera').val(nome);
+	$('#jogo-nome-altera_id').val(par[0]);
+	$("#plataforma-altera").find("option[value='"+par[2]+"']").prop("selected", "selected");
+	$("#frm-altera-jogos").show();
+	
+	
+	var str = "Hello world, welcome to the universe.";
+var n = str.indexOf("welcome");
+	var str = "Hello world!";
+var res = str.substring(1, 4);
+}
 
 //jogos
 $("#div-novo-grupo").on("keydown","[name='jogo[]']",function(e) {
@@ -478,13 +500,74 @@ $("#repasse").on("click", "#btn-confirma-repasse", function(){
 //********************************************************************************
 $('#frm-cadastra-jogos').submit(function(e){
 	e.preventDefault();
-	
+	$formulario = $(this);
+	if($("#nome-jogo").val() == ""){
+		$(".sp-erro-msg")
+			.fadeIn()
+			.html("Preencha o nome do jogo.<span>x</span>");
+		return false;
+	}
 	var $form = $(this).serialize();
 	$form = decodeURI(replaceAll($form, '+', ' ')); //retira alguns caracteres especiais
-	
-	alert($form);
+	$form = $form.split("&");
+	//alert($form);return;
+	var pars = { dados: $form, funcao: 'gravaJogo'};
+	$.ajax({
+		url: 'funcoes_ajax.php',
+		type: 'POST',
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded;charset=UFT-8",
+		data: pars,
+		beforeSend: function() { $("img.pull-right").fadeIn('fast'); },
+		complete: function(){ $("img.pull-right").fadeOut('fast'); },
+		success: function(data){ 
+			console.log(data);
+			if(data[0] == 1){ //erro
+				$(".sp-erro-msg").css({ 'background-color': '#f00', 'color': '#ff0' });
+			} else { //ok
+				$(".sp-erro-msg").css({ 'background-color': '#0F16E4', 'color': '#fff' });
+				$formulario[0].reset();
+			}
+			$(".sp-erro-msg").fadeIn().html(data[1]+"<span>x</span>");
+		}
+	});
 });
-
+//********************************************************************************
+$('#frm-altera-jogos').submit(function(e){
+	e.preventDefault();
+	$formulario = $(this);
+	//if($("#nome-jogo-altera").val() == ""){
+		//$(".sp-erro-msg")
+			//.fadeIn()
+			//.html("Preencha o nome do jogo.<span>x</span>");
+		//return false;
+	//}
+	var $form = $(this).serialize();
+	$form = decodeURI(replaceAll($form, '+', ' ')); //retira alguns caracteres especiais
+	$form = $form.split("&");
+	//alert($form);return;
+	var pars = { dados: $form, funcao: 'alteraJogo'};
+	$.ajax({
+		url: 'funcoes_ajax.php',
+		type: 'POST',
+		dataType: "json",
+		contentType: "application/x-www-form-urlencoded;charset=UFT-8",
+		data: pars,
+		beforeSend: function() { $("img.pull-right").fadeIn('fast'); },
+		complete: function(){ $("img.pull-right").fadeOut('fast'); },
+		success: function(data){ 
+			console.log(data);
+			if(data[0] == 1){ //erro
+				$(".sp-erro-msg").css({ 'background-color': '#f00', 'color': '#ff0' });
+			} else { //ok
+				$(".sp-erro-msg").css({ 'background-color': '#0F16E4', 'color': '#fff' });
+				$("#jogo-nome-altera_autocomplete").val("");
+				$formulario[0].reset();
+			}
+			$(".sp-erro-msg").fadeIn().html(data[1]+"<span>x</span>");
+		}
+	});
+});
 //********************************************************************************
 
 //********************************************************************************  

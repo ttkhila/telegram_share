@@ -74,7 +74,7 @@ class usuarios{
 //---------------------------------------------------------------------------------------------------------------
     public function validaLogin($dados){
 		
-		$query = "SELECT * FROM usuarios WHERE login='".addslashes(utf8_encode($dados['login']))."' AND senha='".md5(trim($dados['senha']))."'";
+		$query = "SELECT * FROM usuarios WHERE login='".addslashes(utf8_encode(trim($dados['login'])))."' AND senha='".md5(trim($dados['senha']))."'";
 
         $res = $this->con->multiConsulta($query);
         
